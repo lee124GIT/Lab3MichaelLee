@@ -1,0 +1,24 @@
+name: Deploy and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+      - name: Date of Action
+        run: date
+      - name: JDK Setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21.0.5'
+          distribution: 'temurin'
+      - name: Maven Build
+        run: mvn -B package --file pom.xml
+      - name: Run Tests
+        run: mvn test
